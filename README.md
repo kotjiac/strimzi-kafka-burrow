@@ -13,13 +13,13 @@ https://k3s.io
 
 ## Install All You Need
 
-### K3S
+K3S
 
 ```bash
 curl -sfL https://get.k3s.io | sh -
 ```
 
-### Strimzi Kafka Operator
+Strimzi Kafka Operator
 
 ```bash
 kubectl create ns kafka-operator
