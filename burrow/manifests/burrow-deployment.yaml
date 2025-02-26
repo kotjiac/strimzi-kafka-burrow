@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: burrow
+  labels:
+    k8s-app: burrow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: burrow
+  template:
+    metadata:
+      labels:
+        k8s-app: burrow
+      annotations: {}
+    spec:
+      containers:
+        - name: burrow
+          image: your-registry/your-image:your-tag
+          ports:
+            - name: api
+              containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /burrow/admin
+              port: 8000
+          livenessProbe:
+            httpGet:
+              path: /burrow/admin
+              port: 8000
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256M
+            requests:
+              cpu: 10m
+              memory: 10M
+          volumeMounts:
+            - name: config
+              mountPath: /etc/burrow/
+            - name: tmp
+              mountPath: /tmp
+            - name: ca-key
+              mountPath: /burrow-ca-key
+            - name: ca-crt
+              mountPath: /burrow-ca-crt
+      volumes:
+        - name: config
+          configMap:
+            name: burrow-config
+        - name: ca-key
+          secret:
+            secretName: kafka-qa-cluster-ca
+        - name: ca-crt
+          secret:
+            secretName: kafka-qa-cluster-ca-cert
+        - name: tmp
+          emptyDir:
+            sizeLimit: 10Mi

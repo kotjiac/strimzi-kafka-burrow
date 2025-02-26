@@ -1,0 +1,41 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    strimzi.io/cluster: kafka-cluster01
+  name: kafka-burrow
+  namespace: kafka-cluster
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: "__consumer_offsets"
+          patternType: literal
+        operations:
+          - All
+        host: "*"
+      - resource:
+          type: group
+          name: "*"
+          patternType: literal
+        operations:
+          - All
+        host: "*"
+      - resource:
+          type: transactionalId
+          name: "*"
+          patternType: literal
+        operations:
+          - All
+        host: "*"
+      - resource:
+          type: cluster
+          name: "*"
+          patternType: literal
+        operations:
+          - All
+        host: "*"
