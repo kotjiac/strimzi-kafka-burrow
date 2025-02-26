@@ -50,7 +50,7 @@ kubectl apply -f burrow/manifests/ -n kafka-cluster
 
 * Port-Forward Kafka Services
 * Install kafkacat
-* Create messages
+* Produce messages
 
 ```bash
 echo "hello from kafkacat" | kafkacat -P -t [TOPIC_NAME] -b [KAFKA_HOST:KAFKA_PORT] -X security.protocol=SASL_SSL -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=kafka-burrow -X sasl.password=[PASSWORD]
